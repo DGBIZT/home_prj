@@ -7,7 +7,7 @@
 ```
 2. Клонируйте репозиторий:
 ```
-git clone https://github.com/username/myblog.git
+git clone https://github.com/DGBIZT/home_prj.git
 ```
 3. Установка:
 ```
