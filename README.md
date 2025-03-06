@@ -1,8 +1,4 @@
-<h1 align="center">Привет, Меня зовут Георгий
-<img src="https://github.com/blackcater/blackcater/raw/main/images/Hi.gif" height="32"/></h1>
-<h2 align="center">Я начинающий Python-разработчик </h2>
-<br>
-
+# Привет, меня зовут Георгий. Я начинающий Python-разработчик
 ### Проект New Widget
 
 1. Описание:
