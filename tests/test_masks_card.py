@@ -39,6 +39,8 @@ def test_get_date():
         get_date("11-03-2020T02:26:18.671407")
     with pytest.raises(UnboundLocalError):
         get_date("024-03-11T02:26:18.671407")
+    with pytest.raises(UnboundLocalError):
+        get_date("")
 
 
 
