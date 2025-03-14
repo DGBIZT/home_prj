@@ -9,13 +9,13 @@ def filter_by_state(list_of_dicts: list[dict[str, int | str]], state: str = "EXE
     for item in list_of_dicts:
         if item["state"] == state:
             new_list.append(item)
-    if new_list == []:
+    if new_list == list():
         raise NameError("Заданный ключ state отсутствует")
 
     return new_list
 
 
-def sort_by_date(list_of_dicts: list[dict[str, int | str]], state: bool=False) -> list:
+def sort_by_date(list_of_dicts: list[dict[str, int | str]], state: bool = False) -> list:
     """Функция, которая принимает список словарей и возвращает новый список, отсортированный по дате"""
     if list_of_dicts == []:
         raise UnboundLocalError("Ваш список пуст, заполните список что бы провести сортировку")
