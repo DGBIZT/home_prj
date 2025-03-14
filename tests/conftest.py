@@ -17,23 +17,6 @@ def date():
 
 
 @pytest.fixture
-def filter_by_state_EXECUTED():
-    return [
-        {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
-        {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
-    ]
-
-
-@pytest.fixture
-def filter_by_state_CANCELED():
-    return [
-        {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
-        {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
-        {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
-    ]
-
-
-@pytest.fixture
 def sort_by_date_False():
     return [
         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
@@ -61,17 +44,3 @@ def sort_by_date_True():
         {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
     ]
-@pytest.fixture
-def mask_account_card_visa():
-    return "Visa Electron 1234 56** **** 3456"
-
-@pytest.fixture
-def mask_account_card_maestro():
-    return "Maestro 7000 79** **** 6361"
-
-@pytest.fixture
-def mask_account_card_score():
-    return "Счет **4305"
-@pytest.fixture
-def mask_account_card_mastercard():
-    return "MasterCard 7158 30** **** 6758"
