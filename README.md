@@ -18,6 +18,12 @@ poetry install
 ```
 poetry update
 ```
+5. Отчетом покрытия тестами в формате HTML
+```
+htmlcov/index.html
+```
 ### Лицензия:
 
 Этот проект лицензирован по [лицензии MIT](LICENSE).
+
+
