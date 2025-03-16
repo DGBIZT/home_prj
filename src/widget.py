@@ -1,6 +1,5 @@
 from .masks import get_mask_account, get_mask_card_number
 
-
 """Функция которая обрабатывает информацию как о картах, так и о счетах"""
 
 
