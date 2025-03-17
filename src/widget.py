@@ -4,7 +4,7 @@ from .masks import get_mask_account, get_mask_card_number
 
 
 def mask_account_card(card: str) -> str:
-    if card == int or card == None:
+    if card == int or card is None:
         raise AttributeError("Введите строковое значение")
     else:
         split_card = card.split(" ")
@@ -21,8 +21,8 @@ def mask_account_card(card: str) -> str:
 
 
 def get_date(date: str) -> str:
-    if date == int or date == None:
-        raise AttributeError("Введите значение с датой" )
+    if date == int or date is None:
+        raise AttributeError("Введите значение с датой")
     else:
         split_date = date.split("-")
         if len(split_date[0]) != 4 :

@@ -25,7 +25,7 @@ def sort_by_date(list_of_dicts: list[dict[str, int | str]], state: bool = False)
                 split_date = item["date"].split("-")
                 if len(split_date[0]) != 4:
                     raise UnboundLocalError("Введите значение с датой в формате 2024-03-11T02:26:18.671407")
-                if state == False:
+                if state is False:
                     list_of_dicts = sorted(list_of_dicts, key=lambda new_list: new_list["date"], reverse=True)
                 else:
                     list_of_dicts = sorted(list_of_dicts, key=lambda new_list: new_list["date"])

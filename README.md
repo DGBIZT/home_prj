@@ -18,7 +18,7 @@ poetry install
 ```
 poetry update
 ```
-5. Отчетом покрытия тестами в формате HTML
+5. Тестирование
 ```
 htmlcov/index.html
 ```
