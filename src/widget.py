@@ -25,7 +25,7 @@ def get_date(date: str) -> str:
         raise AttributeError("Введите значение с датой")
     else:
         split_date = date.split("-")
-        if len(split_date[0]) != 4 :
+        if len(split_date[0]) != 4:
             raise UnboundLocalError("Введите значение с датой в формате 2024-03-11T02:26:18.671407")
         else:
             data_new = f"{date[8:10]}.{date[5:7]}.{date[:4]}"
