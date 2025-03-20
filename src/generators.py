@@ -32,6 +32,15 @@ transactions = [
         "to": "Счет 8175128657841941437",
     },
 ]
-usd_transactions = filter_by_currency(transactions, "RUB")
+usd_transactions = filter_by_currency(transactions, "USD")
 for _ in range(1):
     print(*(next(usd_transactions)))
+
+def transaction_descriptions(transaction: list[dict[str, int | str]]) -> str:
+    for num in transaction:
+        yield num["description"]
+
+descriptions = transaction_descriptions(transactions)
+
+for i in range(len(transactions)):
+    print(next(descriptions))
