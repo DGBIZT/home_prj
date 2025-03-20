@@ -1,5 +1,7 @@
 from typing import Any, Generator, Iterator
 
+from mypyc.irbuild.for_helpers import sequence_from_generator_preallocate_helper
+
 
 def filter_by_currency(transaction: list[dict[str, int | str]], forex: str) -> Iterator[list[dict[str, int | str]]]:
     """Функция принимает на вход список словарей, представляющих транзакции и возвращает итератор,
@@ -20,6 +22,12 @@ def filter_by_currency(transaction: list[dict[str, int | str]], forex: str) -> I
         currency_code = list((x for x in transaction if x["operationAmount"]["currency"]["code"] == forex))
         for item in currency_code:
             yield item
+
+
+def transaction_descriptions(transaction: list[dict[str, int | str]]) -> Generator[int | str, Any, None]:
+    """Функция принимает список словарей с транзакциями и возвращает описание каждой операции по очереди"""
+    for num in transaction:
+        yield num["description"]
 
 
 transactions = [
@@ -53,13 +61,18 @@ number_of_iterations = len(usd_transactions_list)
 for i in range(number_of_iterations):
     print(usd_transactions_list[i])
 
-
-def transaction_descriptions(transaction: list[dict[str, int | str]]) -> Generator[int | str, Any, None]:
-    """Функция принимает список словарей с транзакциями и возвращает описание каждой операции по очереди"""
-    for num in transaction:
-        yield num["description"]
-
-
 descriptions = transaction_descriptions(usd_transactions_list)
 for i in range(number_of_iterations):
     print(next(descriptions))
+
+def card_number_generator(start: int, end: Any) -> Generator[int, Any, None]:
+    num = start
+    while True:
+        yield num
+        num = formula(num)
+
+
+formula = lambda x: x + 1
+gen = card_number_generator(999999999999991, formula)
+for _ in range(10):
+    print(next(gen))
