@@ -30,10 +30,10 @@ def transaction_descriptions(transaction: list[dict[str, int | str]]) -> Generat
         yield num["description"]
 
 
-def card_number_generator(start: int, end: int):
+def card_number_generator(start: int, stop: int):
     """Генератор, который выдает номера банковских карт в формате XXXX XXXX XXXX XXXX, где X - цифра номера карты"""
 
-    for num in range(start, end + 1):
+    for num in range(start, stop + 1):
         str_num = str(num)
         str_num = "000000000000000" + str_num
         # print(str_num)
@@ -44,7 +44,7 @@ transactions = [
     {
         "id": 970157810,
         "date": "2018-06-08T10:3:58.027767",
-        "operationAmount": {"amount": "150", "currency": {"code": "EUR"}},
+        "operationAmount": {"amount": "150", "currency": {"code": "RUB"}},
         "description": "Перевод организации",
         "from": "Счет - 63475662387234505765",
         "to": "Счет 8175128657841941437",

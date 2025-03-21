@@ -24,6 +24,14 @@ def test_filter_by_currency():
     ]
     transactions = [
         {
+            "id": 970157810,
+            "date": "2018-06-08T10:3:58.027767",
+            "operationAmount": {"amount": "150", "currency": {"code": "RUB"}},
+            "description": "Перевод организации",
+            "from": "Счет - 63475662387234505765",
+            "to": "Счет 8175128657841941437",
+        },
+        {
             "id": 129309161,
             "date": "2018-09-26T00:46:36.256087",
             "operationAmount": {"amount": "17250", "currency": {"code": "USD"}},
@@ -52,7 +60,6 @@ def test_filter_by_currency():
         filter_by_currency([])
     with pytest.raises(TypeError):
         filter_by_currency(0)
-
 
 def test_transaction_descriptions(transaction_descriptions_mylist):
     result = next(transaction_descriptions(transaction_descriptions_mylist))
