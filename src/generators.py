@@ -1,24 +1,22 @@
 from typing import Any, Generator, Iterator
 
 
-def filter_by_currency(transaction: list[dict[str, int | str]], forex: str) -> Iterator[list[dict[str, int | str]]]:
+def filter_by_currency(transaction: list[dict[str, int | str]], forex: str = "USD") -> Iterator[list[dict[str, int | str]]]:
     """Функция принимает на вход список словарей, представляющих транзакции и возвращает итератор,
     который поочередно выдает транзакции"""
-
+    print(f"transaction: {transaction}, forex: '{forex}'")
     if transaction == []:
-        raise TypeError("Ваш список пуст, заполните его")
-    elif forex == "":
-        raise TypeError("Введите валюту для получения информации")
+        raise ValueError("Ваш список пуст, заполните его")
 
     for _ in range(len(transaction)):
         total_number = 0
         for item in transaction:
-            if item["operationAmount"]["currency"]["code"] != forex:
+            if item.get("operationAmount", {"currency": {"code": "отсутствует"}})["currency"]["code"] != forex:
                 total_number += 1
     if total_number == len(transaction):
         raise TypeError("По данной валюте нет транзакций!")
     else:
-        currency_code = list((x for x in transaction if x["operationAmount"]["currency"]["code"] == forex))
+        currency_code = list((x for x in transaction if x.get("operationAmount", {"currency": {"code": "отсутствует"}})["currency"]["code"] == forex))
         for item in currency_code:
             yield item
 

@@ -66,3 +66,34 @@ def transaction_descriptions_mylist():
             "to": "Счет 8175128657841941437",
         },
     ]
+@pytest.fixture
+def transaction():
+    transactions = [
+        {
+            "id": 129309161,
+            "date": "2018-09-26T00:46:36.256087",
+            "operationAmount": {"amount": "17250", "currency": {"code": "USD"}},
+            "description": "Перевод с карты на счет",
+            "from": "Visa Classic 1313132313442324",
+            "to": "Счет 1743370781324891402",
+        },
+        {
+            "id": 999888555,
+            "date": "2025-03-19T10:3:58.027767",
+            "operationAmount": {"amount": "250", "currency": {"code": "RUB"}},
+            "description": "Перевод организации STMU",
+            "from": "Счет - 63475662387234505765",
+            "to": "Счет 8175128657841941437",
+        },
+    ]
+    return transactions
+@pytest.fixture
+def transaction_rub():
+    return [{
+            "id": 999888555,
+            "date": "2025-03-19T10:3:58.027767",
+            "operationAmount": {"amount": "250", "currency": {"code": "RUB"}},
+            "description": "Перевод организации STMU",
+            "from": "Счет - 63475662387234505765",
+            "to": "Счет 8175128657841941437",
+        }]
