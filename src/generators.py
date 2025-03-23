@@ -1,7 +1,9 @@
 from typing import Any, Generator, Iterator
 
 
-def filter_by_currency(transaction: list[dict[str, int | str]], forex: str = "USD") -> Iterator[list[dict[str, int | str]]]:
+def filter_by_currency(
+    transaction: list[dict[str, int | str]], forex: str = "USD"
+) -> Iterator[list[dict[str, int | str]]]:
     """Функция принимает на вход список словарей, представляющих транзакции и возвращает итератор,
     который поочередно выдает транзакции"""
     print(f"transaction: {transaction}, forex: '{forex}'")
@@ -16,7 +18,13 @@ def filter_by_currency(transaction: list[dict[str, int | str]], forex: str = "US
     if total_number == len(transaction):
         raise TypeError("По данной валюте нет транзакций!")
     else:
-        currency_code = list((x for x in transaction if x.get("operationAmount", {"currency": {"code": "отсутствует"}})["currency"]["code"] == forex))
+        currency_code = list(
+            (
+                x
+                for x in transaction
+                if x.get("operationAmount", {"currency": {"code": "отсутствует"}})["currency"]["code"] == forex
+            )
+        )
         for item in currency_code:
             yield item
 
@@ -36,5 +44,3 @@ def card_number_generator(start: int, stop: int) -> Generator[int | str, Any, No
         str_num = "000000000000000" + str_num
         # print(str_num)
         yield f"{str_num[-16:-12]} {str_num[-12:-8]} {str_num[-8:-4]} {str_num[-4:]}"
-
-

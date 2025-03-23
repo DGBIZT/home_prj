@@ -66,6 +66,8 @@ def transaction_descriptions_mylist():
             "to": "Счет 8175128657841941437",
         },
     ]
+
+
 @pytest.fixture
 def transaction():
     transactions = [
@@ -87,13 +89,17 @@ def transaction():
         },
     ]
     return transactions
+
+
 @pytest.fixture
 def transaction_rub():
-    return [{
+    return [
+        {
             "id": 999888555,
             "date": "2025-03-19T10:3:58.027767",
             "operationAmount": {"amount": "250", "currency": {"code": "RUB"}},
             "description": "Перевод организации STMU",
             "from": "Счет - 63475662387234505765",
             "to": "Счет 8175128657841941437",
-        }]
+        }
+    ]
