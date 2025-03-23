@@ -10,12 +10,12 @@ def filter_by_currency(transaction: list[dict[str, int | str]], forex: str) -> I
     elif forex == "":
         raise TypeError("Введите валюту для получения информации")
 
-    for _ in range(len(transactions)):
+    for _ in range(len(transaction)):
         total_number = 0
-        for item in transactions:
+        for item in transaction:
             if item["operationAmount"]["currency"]["code"] != forex:
                 total_number += 1
-    if total_number == len(transactions):
+    if total_number == len(transaction):
         raise TypeError("По данной валюте нет транзакций!")
     else:
         currency_code = list((x for x in transaction if x["operationAmount"]["currency"]["code"] == forex))
@@ -40,40 +40,3 @@ def card_number_generator(start: int, stop: int) -> Generator[int | str, Any, No
         yield f"{str_num[-16:-12]} {str_num[-12:-8]} {str_num[-8:-4]} {str_num[-4:]}"
 
 
-transactions = [
-    {
-        "id": 970157810,
-        "date": "2018-06-08T10:3:58.027767",
-        "operationAmount": {"amount": "150", "currency": {"code": "RUB"}},
-        "description": "Перевод организации",
-        "from": "Счет - 63475662387234505765",
-        "to": "Счет 8175128657841941437",
-    },
-    {
-        "id": 129309161,
-        "date": "2018-09-26T00:46:36.256087",
-        "operationAmount": {"amount": "17250", "currency": {"code": "USD"}},
-        "description": "Перевод с карты на счет",
-        "from": "Visa Classic 1313132313442324",
-        "to": "Счет 1743370781324891402",
-    },
-    {
-        "id": 999888555,
-        "date": "2025-03-19T10:3:58.027767",
-        "operationAmount": {"amount": "250", "currency": {"code": "USD"}},
-        "description": "Перевод организации STMU",
-        "from": "Счет - 63475662387234505765",
-        "to": "Счет 8175128657841941437",
-    },
-]
-usd_transactions_list = list(filter_by_currency(transactions, "USD"))
-number_of_iterations = len(usd_transactions_list)
-for i in range(number_of_iterations):
-    print(usd_transactions_list[i])
-
-descriptions = transaction_descriptions(usd_transactions_list)
-for i in range(number_of_iterations):
-    print(next(descriptions))
-
-for card_number in card_number_generator(4000123456789010, 4000123456789015):
-    print(card_number)

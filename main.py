@@ -1,6 +1,7 @@
 from src.masks import get_mask_account, get_mask_card_number
 from src.processing import filter_by_state, sort_by_date
 from src.widget import get_date, mask_account_card
+from src.generators import filter_by_currency, transaction_descriptions, card_number_generator
 
 # Маскировка номера банковской карты
 print(get_mask_card_number("7000792289606361"), "\n")
@@ -35,3 +36,42 @@ list_sort_data = sort_by_date(
     ]
 )
 print(list_sort_data, "\n")
+
+""" GENERATORS"""
+transactions = [
+    {
+        "id": 970157810,
+        "date": "2018-06-08T10:3:58.027767",
+        "operationAmount": {"amount": "150", "currency": {"code": "RUB"}},
+        "description": "Перевод организации",
+        "from": "Счет - 63475662387234505765",
+        "to": "Счет 8175128657841941437",
+    },
+    {
+        "id": 129309161,
+        "date": "2018-09-26T00:46:36.256087",
+        "operationAmount": {"amount": "17250", "currency": {"code": "USD"}},
+        "description": "Перевод с карты на счет",
+        "from": "Visa Classic 1313132313442324",
+        "to": "Счет 1743370781324891402",
+    },
+    {
+        "id": 999888555,
+        "date": "2025-03-19T10:3:58.027767",
+        "operationAmount": {"amount": "250", "currency": {"code": "USD"}},
+        "description": "Перевод организации STMU",
+        "from": "Счет - 63475662387234505765",
+        "to": "Счет 8175128657841941437",
+    },
+]
+usd_transactions_list = list(filter_by_currency(transactions, "USD"))
+number_of_iterations = len(usd_transactions_list)
+for i in range(number_of_iterations):
+    print(usd_transactions_list[i])
+
+descriptions = transaction_descriptions(usd_transactions_list)
+for i in range(number_of_iterations):
+    print(next(descriptions))
+
+for card_number in card_number_generator(4000123456789010, 4000123456789015):
+    print(card_number)
