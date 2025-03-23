@@ -61,6 +61,7 @@ def test_filter_by_currency():
     with pytest.raises(TypeError):
         filter_by_currency(0)
 
+
 def test_transaction_descriptions(transaction_descriptions_mylist):
     result = next(transaction_descriptions(transaction_descriptions_mylist))
     assert result == "Перевод с карты на счет"

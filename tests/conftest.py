@@ -45,6 +45,7 @@ def sort_by_date_True():
         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
     ]
 
+
 @pytest.fixture
 def transaction_descriptions_mylist():
     return [
