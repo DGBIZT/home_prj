@@ -1,0 +1,8 @@
+my_function ок 
+my_function ок 
+my_function ок 
+my_function error: unsupported operand type(s) for +: 'float' and 'str'. Inputs: (1.5, '2'), {}  
+my_function error: <class 'Exception'>. Inputs: (1.5, '2'), {}  
+my_function error: Exception. Inputs: (1.5, '2'), {}  
+my_function error: TypeError. Inputs: (1.5, '2'), {}  
+my_function error: TypeError. Inputs: (1.5, '2'), {}  
