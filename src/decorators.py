@@ -1,18 +1,21 @@
 from functools import wraps
-import os
+import os, time
 
 def log(filename=""):
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             try:
+                time_start = time.time()
                 result = func(*args , **kwargs)
+                end_time = time.time()
                 print(f"{func.__name__}: Результат {result}")
                 if filename:
                     with open(os.path.abspath(f"{filename}"), 'a', encoding="utf-8") as f:
-                        f.write(f"{func.__name__} ок \n")
+                        f.write(f"{time_start} \n {func.__name__} ок \n {end_time} ")
                 else:
                     print(f"{func.__name__} ок")
+                end_time = time.time()
                 return result
             except TypeError as e:
                 if filename:
@@ -26,7 +29,7 @@ def log(filename=""):
     return decorator
 
 
-@log()
+@log(filename="my_log.txt")
 def my_function(x, y):
     """Сложение чисел"""
     return x + y

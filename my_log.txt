@@ -6,3 +6,17 @@ my_function error: <class 'Exception'>. Inputs: (1.5, '2'), {}
 my_function error: Exception. Inputs: (1.5, '2'), {}  
 my_function error: TypeError. Inputs: (1.5, '2'), {}  
 my_function error: TypeError. Inputs: (1.5, '2'), {}  
+my_function ок 
+my_function error: TypeError. Inputs: (1.5, '2'), {}  
+my_function error: TypeError. Inputs: (1.5, '2'), {}  
+1743108139.7025585 
+ my_function ок 
+ my_function error: TypeError. Inputs: (1.5, 2), {}  
+1743108905.1410005 
+ my_function ок 
+ my_function error: TypeError. Inputs: (1.5, 2), {}  
+1743108925.2084217 
+ my_function ок 
+ 1743109172.3481307 
+ my_function ок 
+ 1743109172.3481407 
