@@ -40,13 +40,13 @@ def log(filename=""):
                             f"\n [{formatted_time_error_start}] {func.__name__} started with inputs: "
                             f"{args}, {kwargs}"
                             f"\n [{formatted_time_error_end}] {func.__name__}"
-                            f"error: {type(e).__name__}. Inputs: {args}, {kwargs}"
+                            f" error: {type(e).__name__}. Inputs: {args}, {kwargs}"
                         )
                 else:
                     print(
                         f" \n [{formatted_time_error_start}] {func.__name__} started with inputs:"
                         f"{args}, {kwargs}\n [{formatted_time_error_end}] {func.__name__}"
-                        f"error: {type(e).__name__}. Inputs: {args}, {kwargs}"
+                        f" error: {type(e).__name__}. Inputs: {args}, {kwargs}"
                     )
                 raise TypeError(f"Введены не правильные данные в функции {func.__name__}")
 
