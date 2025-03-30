@@ -1,12 +1,14 @@
 import os
 from datetime import datetime
 from functools import wraps
+from typing import Any, Callable
 
 
-def log(filename=""):
-    def decorator(func):
+def log(filename: str = "") -> Callable:
+    """Декоратор для логирования работы функции."""
+    def decorator(func: Callable) -> Callable:
         @wraps(func)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args: tuple[Any], **kwargs: dict[Any, Any]) -> Any:
             try:
                 time_start = datetime.now()
                 formatted_time = time_start.strftime("%Y-%m-%d %H:%M:%S")
@@ -53,13 +55,3 @@ def log(filename=""):
         return wrapper
 
     return decorator
-
-
-@log()
-def my_function(x, y):
-    """Сложение чисел"""
-    return x + y
-
-
-my_function(1, 2)
-# print(my_function(1, 2))
