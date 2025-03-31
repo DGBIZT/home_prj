@@ -25,6 +25,7 @@ isort = "^6.0.0"
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.5"
 pytest-cov = "^6.0.0"
+freezegun = "^1.5.1"
 
 [tool.mypy]
 disallow_untyped_defs = true
