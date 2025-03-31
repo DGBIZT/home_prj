@@ -103,3 +103,8 @@ def transaction_rub():
             "to": "Счет 8175128657841941437",
         }
     ]
+
+
+@pytest.fixture
+def log_file(tmp_path):
+    return tmp_path / "my_log.txt"
