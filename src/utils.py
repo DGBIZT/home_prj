@@ -14,5 +14,5 @@ def get_for_city(file_path: str) -> list:
         return list()
 
 
-a = get_for_city("data/operations.json")
-print(a)
+# a = get_for_city("data/operations.json")
+# print(a)

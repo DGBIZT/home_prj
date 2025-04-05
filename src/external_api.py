@@ -1,7 +1,8 @@
-import requests
 import json
-from dotenv import load_dotenv
 import os
+
+import requests
+from dotenv import load_dotenv
 
 
 def transaction_amount(transaction_dict: dict) -> float:
