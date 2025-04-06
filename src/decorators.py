@@ -6,6 +6,7 @@ from typing import Any, Callable
 
 def log(filename: str = "") -> Callable:
     """Декоратор для логирования работы функции."""
+
     def decorator(func: Callable) -> Callable:
         @wraps(func)
         def wrapper(*args: tuple[Any], **kwargs: dict[Any, Any]) -> Any:

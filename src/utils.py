@@ -2,7 +2,6 @@ import json
 import os
 
 
-
 def get_for_city(file_path: str) -> list:
     """Принимает на вход путь до JSON-файла и возвращает список словарей с данными о финансовых транзакциях"""
     base_dir = os.path.dirname(__file__)
@@ -20,8 +19,3 @@ def get_for_city(file_path: str) -> list:
             # Файл не найден
     except FileNotFoundError:
         return list()
-
-
-a = get_for_city("../data/operations.json")
-print(a)
-
