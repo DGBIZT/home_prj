@@ -1,7 +1,8 @@
 
 from src.utils import get_for_city
 from unittest.mock import patch
-from io import StringIO
+import tempfile
+
 
 
 
@@ -26,27 +27,16 @@ def test_get_for_city_with_invalid_data():
     assert result == []
 
 
-# def load_json(data):
-#     try:
-#         return json.loads(data)
-#     except json.JSONDecodeError:
-#         return list()
-#
-# # Тестовая функция
-# def test_load_json_with_invalid_data():
-#     invalid_json_data = "{invalid_json}"
-#     result = load_json(invalid_json_data)
-#     assert result == []
-
 def test_get_for_city_type_not_list():
-    fake_file = StringIO('{"key": "value"}')
-    content = fake_file.getvalue()
-    print(f"Результат вызова get_for_city: {content}")
-    result = get_for_city(content)
-    assert result == []
+    with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+        temp_file.write(b'{"key": "value"}')
+        result = get_for_city(temp_file.name)
+        assert result == []
+
 
 def test_get_for_city_type_list():
-    fake_file = StringIO('[1, 2, 3]')
-    content = fake_file.getvalue()
-    result = get_for_city(content)
-    assert result == [1, 2, 3]
+    with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+        temp_file.write(b'[1, 2, 3]')
+        temp_file.seek(0)
+        result = get_for_city(temp_file.name)
+        assert result == [1, 2, 3]
