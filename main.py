@@ -7,7 +7,7 @@ from src.widget import get_date, mask_account_card
 print(get_mask_card_number("7000792289606361"), "\n")
 
 # Маскировка номера банковского счета
-print(get_mask_account("73654108430135874305"), "\n")
+print(get_mask_account("73654108430135874301"), "\n")
 
 # Обработка информации как о картах, так и о счетах
 print(mask_account_card("Visa Electron 1234567890123456"), "\n")
