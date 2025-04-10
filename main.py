@@ -2,6 +2,7 @@ from src.generators import card_number_generator, filter_by_currency, transactio
 from src.masks import get_mask_account, get_mask_card_number
 from src.processing import filter_by_state, sort_by_date
 from src.widget import get_date, mask_account_card
+from src.file_operations import read_transactions_csv_and_output, read_transactions_excel_and_output
 
 # Маскировка номера банковской карты
 print(get_mask_card_number("7000792289606361"), "\n")
@@ -75,3 +76,9 @@ for i in range(number_of_iterations):
 
 for card_number in card_number_generator(4000123456789010, 4000123456789015):
     print(card_number)
+
+csv_file = read_transactions_csv_and_output("../data/transactions.csv")
+print(csv_file)
+
+xlsx_file = read_transactions_excel_and_output("../data/transactions_excel.xlsx")
+print(xlsx_file)
