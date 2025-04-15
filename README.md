@@ -50,6 +50,12 @@ for i in range(number_of_iterations):
 for card in card_number_generator(4000123456789010, 4000123456789015):
     print(card)
 ```
+7. Модуль Generators
+#### Модуль file_operations.py представляет функции для работы с csv и xlsx файлами. Он включает в себя следующие функции:
+```
+- read_transactions_csv_and_output(file_path: str) -> list[dict[str, str]]: Функция для считывания финансовых операций из CSV
+- read_transactions_excel_and_output(file_path: str) -> list[dict[str, str]]: Функция для считывания финансовых операций из Excel
+```
 ### Лицензия:
 
 Этот проект лицензирован по [лицензии MIT](LICENSE).
