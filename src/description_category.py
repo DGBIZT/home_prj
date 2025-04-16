@@ -12,8 +12,7 @@ def list_dict_operation(list_dict: list[dict[str, str]], search_string: str) -> 
             b= item.get("state")
             if b and pattern.search(b):
                 new_list_dict.append(item)
-            else:
-                continue
+
     except Exception as e:
         print(f"Внимание! Ошибка {e}! Введены не корректные данные!")
 
@@ -37,30 +36,35 @@ def count_operations_by_category(operations: list[dict[str, str]], categories: l
     а значения — это количество операций в каждой категории."""
 
     # all_categories = [operation.get("description") for operation in operations]
+    try:
+        all_categories = list()
 
-    all_categories = list()
+        for operation in operations:
+            transaction_category = operation.get("description")
+            all_categories.append(transaction_category)
 
-    for operation in operations:
-        transaction_category = operation.get("description")
-        all_categories.append(transaction_category)
+    except Exception as e:
+        print(f"Внимание! Ошибка {e}! Введены не корректные данные!")
 
     category_count = Counter(all_categories)
+    try:
+        # filtered_category_count = {category: category_count[category] for category in categories}
+        filtered_category_count = {}
+        for category in categories:
+            if category in category_count:
+                filtered_category_count[category] = category_count[category]
 
-    # filtered_category_count = {category: category_count[category] for category in categories}
-    filtered_category_count = {}
-    for category in categories:
-        if category in category_count:
-            filtered_category_count[category] = category_count[category]
+        return filtered_category_count
+    except Exception as e:
+        print(f"Внимание! Ошибка {e}! Введены не корректные данные!")
 
-    return filtered_category_count
+operations = [
+    {"id": 1, "amount": 100.0, "description": "groceries"},
+    {"id": 2, "amount": 200.0, "description": "utilities"},
+    {"id": 3, "amount": 50.0, "description": "groceries"},
+    {"id": 4, "amount": 150.0, "description": "entertainment"},
+]
 
-# operations = [
-#     {"id": 1, "amount": 100.0, "description": "groceries"},
-#     {"id": 2, "amount": 200.0, "description": "utilities"},
-#     {"id": 3, "amount": 50.0, "description": "groceries"},
-#     {"id": 4, "amount": 150.0, "description": "entertainment"},
-# ]
-#
-# categories = ["groceries", "utilities", "entertainment", "transport"]
-#
-# print(count_operations_by_category(operations, categories))
+categories = ["groceries", "utilities", "entertainment", "transport"]
+
+print(count_operations_by_category(operations, categories))
