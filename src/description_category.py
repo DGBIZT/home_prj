@@ -9,8 +9,8 @@ def list_dict_operation(list_dict: list[dict[str, str]], search_string: str) -> 
         pattern = re.compile(search_string, re.IGNORECASE)
         new_list_dict = list()
         for item in list_dict:
-            b= item.get("state")
-            if b and pattern.search(b):
+            state_key = item.get("state")
+            if state_key and pattern.search(state_key):
                 new_list_dict.append(item)
 
     except Exception as e:
@@ -19,14 +19,14 @@ def list_dict_operation(list_dict: list[dict[str, str]], search_string: str) -> 
     return new_list_dict
 
 
-list_sort_data =  [
-        {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
-        {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
-        {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
-        {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
-    ]
-
-print(list_dict_operation(list_sort_data, "EXECUTED"))
+# list_sort_data =  [
+#         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
+#         {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
+#         {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
+#         {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
+#     ]
+#
+# print(list_dict_operation(list_sort_data, "EXECUTED"))
 
 
 def count_operations_by_category(operations: list[dict[str, str]], categories: list) -> dict:

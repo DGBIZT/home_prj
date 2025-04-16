@@ -4,19 +4,19 @@ from src.processing import filter_by_state, sort_by_date
 from src.widget import get_date, mask_account_card
 from src.file_operations import read_transactions_csv_and_output, read_transactions_excel_and_output
 
-# Маскировка номера банковской карты
+# # Маскировка номера банковской карты
 # print(get_mask_card_number("7000792289606361"), "\n")
-
-# Маскировка номера банковского счета
+#
+# # Маскировка номера банковского счета
 # print(get_mask_account("73654108430135874301"), "\n")
-
-# Обработка информации как о картах, так и о счетах
+#
+# # Обработка информации как о картах, так и о счетах
 # print(mask_account_card("Visa Electron 1234567890123456"), "\n")
-
-# Обработка даты
+#
+# # Обработка даты
 # print(get_date("2024-03-11T02:26:18.671407"), "\n")
-
-# Возвращает новый список словарей у которых ключ 'state' соответствует указанному значению
+#
+# # Возвращает новый список словарей у которых ключ 'state' соответствует указанному значению
 # new_list_of_dicts = filter_by_state(
 #     [
 #         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
@@ -26,8 +26,8 @@ from src.file_operations import read_transactions_csv_and_output, read_transacti
 #     ]
 # )
 # print(new_list_of_dicts, "\n")
-
-# Возвращает новый список, отсортированный по дате
+#
+# # Возвращает новый список, отсортированный по дате
 # list_sort_data = sort_by_date(
 #     [
 #         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
@@ -37,7 +37,7 @@ from src.file_operations import read_transactions_csv_and_output, read_transacti
 #     ]
 # )
 # print(list_sort_data, "\n")
-
+#
 # """ GENERATORS"""
 # transactions = [
 #     {
@@ -83,6 +83,8 @@ from src.file_operations import read_transactions_csv_and_output, read_transacti
 # xlsx_file = read_transactions_excel_and_output("../data/transactions_excel.xlsx")
 # print(xlsx_file)
 ####################################################
+from src.utils import get_for_city
+from src.description_category import list_dict_operation
 def choose_difficulty():
       """Запрашивает у пользователя пункт меню. """
       one = "1"
@@ -103,34 +105,59 @@ def choose_difficulty():
 
       if options == one:
             conclusion = "Для обработки выбран JSON-файл"
+            json_file = get_for_city("../data/operations.json")
+
       elif options == two:
             conclusion = "Для обработки выбран CSV-файл"
       elif options == three:
             conclusion = "Для обработки выбран XLSX-файл"
 
-      return conclusion
+      # print(conclusion)
+      print(conclusion)
 
+# a = choose_difficulty()
 # print(choose_difficulty())
-
-
-def operation_status():
+#
+#
+# def operation_status(a: list):
       """Функция запрашивает статус у пользователя по которому необходимо выполнить фильтрацию"""
-      executed = "executed"
-      canceled = "canceled"
-      pending = "pending"
+      executed = "EXECUTED"
+      canceled = "CANCELED"
+      pending = "PENDING"
 
       print("Введите статус, по которому необходимо выполнить фильтрацию.\n"
       "Доступные для фильтровки статусы: EXECUTED, CANCELED, PENDING")
 
       while True:
-            status_operation = input().strip().lower()
-            if status_operation in {executed, canceled, pending}:
-                  break
-            print(f"Статус {status_operation} не доступен")
+            status_operation = input().strip().upper()
 
-      return f"Операции отфильтрованы по статусу {status_operation.upper()}"
+            if status_operation not in {executed, canceled, pending}:
+                print(f"Статус {status_operation} не доступен")
+                continue
 
-# print(operation_status())
+            new_list_of_dicts = list_dict_operation(json_file, status_operation)
 
-def additional_questions():
-      pass
+            if not new_list_of_dicts:
+                  print(f"Статус {status_operation} не доступен")
+            else:
+                new_list_of_dicts = new_list_of_dicts
+                break
+      # print(f"Операции отфильтрованы по статусу {status_operation.upper()}")
+      print(new_list_of_dicts)
+
+print(choose_difficulty())
+
+#
+# def additional_questions():
+#       pass
+# print("Отсортировать операции по дате? Да/Нет")
+# first_question = input().strip().lower()
+#
+# print("Отсортировать по возрастанию или по убыванию?")
+# second_question = input().strip().lower()
+#
+# print("Выводить только рублевые транзакции? Да/Нет")
+# third_question = input().strip().lower()
+#
+# print("Распечатываю итоговый список транзакций...")
+# print("Всего банковских операций в выборке: 4")
