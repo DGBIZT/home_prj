@@ -219,29 +219,13 @@ def choose_difficulty():
             transfer_to = mask_account_card(operation["to"])
             transfer_amount = operation["operationAmount"]["amount"]
             currency_name = operation["operationAmount"]["currency"]["name"]
-            # return f"\n"f"{date} {transactions}\n{transfer_from} -> {transfer_to}\nСумма: {transfer_amount} {currency_name}"
+            #f"\n"f"{date} {transactions}\n{transfer_from} -> {transfer_to}\nСумма: {transfer_amount} {currency_name}"
             print("\n"f"{date} {transactions}")
             print(f"{transfer_from} -> {transfer_to}")
             print(f"Сумма: {transfer_amount} {currency_name}")
-      return
 
 
 
 
-# {
-#     "id": 441945886,
-#     "state": "EXECUTED",
-#     "date": "2019-08-26T10:50:58.294041",
-#     "operationAmount": {
-#       "amount": "31957.58",
-#       "currency": {
-#         "name": "руб.",
-#         "code": "RUB"
-#       }
-#     },
-#     "description": "Перевод организации",
-#     "from": "Maestro 1596837868705199",
-#     "to": "Счет 64686473678894779589"
-#   }
-# a = choose_difficulty()
-print(choose_difficulty())
+
+choose_difficulty()
