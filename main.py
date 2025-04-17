@@ -1,8 +1,8 @@
-from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
-from src.masks import get_mask_account, get_mask_card_number
-from src.processing import filter_by_state, sort_by_date
-from src.widget import get_date, mask_account_card
-from src.file_operations import read_transactions_csv_and_output, read_transactions_excel_and_output
+# from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
+# from src.masks import get_mask_account, get_mask_card_number
+# from src.processing import filter_by_state, sort_by_date
+# from src.widget import get_date, mask_account_card
+# from src.file_operations import read_transactions_csv_and_output, read_transactions_excel_and_output
 
 # # Маскировка номера банковской карты
 # print(get_mask_card_number("7000792289606361"), "\n")
@@ -86,6 +86,8 @@ from src.file_operations import read_transactions_csv_and_output, read_transacti
 from src.utils import get_for_city
 from src.description_category import list_dict_operation
 from src.processing import sort_by_date
+from src.widget import get_date, mask_account_card
+import re
 
 def choose_difficulty():
       """Запрашивает у пользователя пункт меню. """
@@ -143,35 +145,103 @@ def choose_difficulty():
       print(f"Операции отфильтрованы по статусу {status_operation.upper()}")
       # print(new_list_of_dicts)
 
-# print(choose_difficulty())
-
-#
-# def additional_questions():
-#       pass
       print("Отсортировать операции по дате? Да/Нет")
 
       yes = "да"
       no = "нет"
       while True:
             first_question = input().strip().lower()
-            if first_question == "да":
+            if first_question not in {yes, no}:
+                  print (f"Введите {yes} или {no}")
+                  continue
+
+            if first_question == yes:
                   sort_date = sort_by_date(new_list_of_dicts)
-                  print(sort_date)
+                  # print(sort_date)
+                  break
+            if first_question == no:
+                  sort_date = new_list_of_dicts
+                  # print(sort_date)
                   break
 
+      print("Отсортировать по возрастанию или по убыванию?")
+      second_question = input().strip().lower()
+      if second_question == "возрастанию":
+            sorted_in_ascending_order = sorted(sort_date, key=lambda date_sort: date_sort["date"])
+            # print(sorted_in_ascending_order)
+      elif second_question == "убыванию":
+            sorted_in_ascending_order = sorted(sort_date, key=lambda date_sort: date_sort["date"], reverse=True)
+            # print(sorted_in_ascending_order)
+
+      print("Выводить только рублевые транзакции? Да/Нет")
+
+      third_question = input().strip().lower()
+      if third_question == 'да':
+            new_ruble_list = list()
+            for item in sorted_in_ascending_order:
+                  currency = item["operationAmount"]["currency"]["code"]
+                  if currency == "RUB":
+                        new_ruble_list.append(item)
+            # print(new_ruble_list)
+
+      print("Отфильтровать список транзакций по определенному слову в описании? Да/Нет")
+      fourth_question = input().strip().lower()
+      if fourth_question == "да":
+            print("Введите 'Перевод' или 'Открытие'.")
+            open_word = "открытие"
+            transaction_word = 'перевод'
+            while True:
+                  fourth_question_yes = input().strip().lower()
+                  if fourth_question_yes not in {open_word, transaction_word}:
+                        print("Введите 'Перевод' или 'Открытие'.")
+                        continue
+                  certain_word_list_of_dicts = list_dict_operation(new_ruble_list, fourth_question_yes)
+
+                  if not certain_word_list_of_dicts:
+                        print(f"Транзакции по слову {fourth_question_yes} нет")
+                  else:
+                        certain_word_list_of_dicts = certain_word_list_of_dicts
+                        break
+      # Создаю список из значений словаря
+      categories_list = list()
+      for item in certain_word_list_of_dicts:
+            if item["description"]:
+                  categories_list.append(item["description"])
+
+
+      print("Распечатываю итоговый список транзакций...")
+      print(f"Всего банковских операций в выборке: {len(categories_list)}")
+
+      for operation in certain_word_list_of_dicts:
+            date = get_date(operation["date"])
+            transactions = operation["description"]
+            transfer_from =mask_account_card(operation["from"])
+            transfer_to = mask_account_card(operation["to"])
+            transfer_amount = operation["operationAmount"]["amount"]
+            currency_name = operation["operationAmount"]["currency"]["name"]
+            # return f"\n"f"{date} {transactions}\n{transfer_from} -> {transfer_to}\nСумма: {transfer_amount} {currency_name}"
+            print("\n"f"{date} {transactions}")
+            print(f"{transfer_from} -> {transfer_to}")
+            print(f"Сумма: {transfer_amount} {currency_name}")
+      return
+
+
+
+
+# {
+#     "id": 441945886,
+#     "state": "EXECUTED",
+#     "date": "2019-08-26T10:50:58.294041",
+#     "operationAmount": {
+#       "amount": "31957.58",
+#       "currency": {
+#         "name": "руб.",
+#         "code": "RUB"
+#       }
+#     },
+#     "description": "Перевод организации",
+#     "from": "Maestro 1596837868705199",
+#     "to": "Счет 64686473678894779589"
+#   }
 # a = choose_difficulty()
 print(choose_difficulty())
-
-
-
-
-
-#
-# print("Отсортировать по возрастанию или по убыванию?")
-# second_question = input().strip().lower()
-#
-# print("Выводить только рублевые транзакции? Да/Нет")
-# third_question = input().strip().lower()
-#
-# print("Распечатываю итоговый список транзакций...")
-# print("Всего банковских операций в выборке: 4")

@@ -1,9 +1,10 @@
 from .masks import get_mask_account, get_mask_card_number
 
-"""Функция которая обрабатывает информацию как о картах, так и о счетах"""
-
 
 def mask_account_card(card: str) -> str:
+
+    """Функция, которая обрабатывает информацию как о картах, так и о счетах"""
+
     if card == int or card is None:
         raise AttributeError("Введите строковое значение")
     else:
