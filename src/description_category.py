@@ -58,13 +58,13 @@ def count_operations_by_category(operations: list[dict[str, str]], categories: l
     except Exception as e:
         print(f"Внимание! Ошибка {e}! Введены не корректные данные!")
 
-operations = [
-    {"id": 1, "amount": 100.0, "description": "groceries"},
-    {"id": 2, "amount": 200.0, "description": "utilities"},
-    {"id": 3, "amount": 50.0, "description": "groceries"},
-    {"id": 4, "amount": 150.0, "description": "entertainment"},
-]
-
-categories = ["groceries", "utilities", "entertainment", "transport"]
-
-print(count_operations_by_category(operations, categories))
+# operations = [
+#     {"id": 1, "amount": 100.0, "description": "groceries"},
+#     {"id": 2, "amount": 200.0, "description": "utilities"},
+#     {"id": 3, "amount": 50.0, "description": "groceries"},
+#     {"id": 4, "amount": 150.0, "description": "entertainment"},
+# ]
+#
+# categories = ["groceries", "utilities", "entertainment", "transport"]
+#
+# print(count_operations_by_category(operations, categories))

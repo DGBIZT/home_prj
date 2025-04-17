@@ -85,6 +85,8 @@ from src.file_operations import read_transactions_csv_and_output, read_transacti
 ####################################################
 from src.utils import get_for_city
 from src.description_category import list_dict_operation
+from src.processing import sort_by_date
+
 def choose_difficulty():
       """Запрашивает у пользователя пункт меню. """
       one = "1"
@@ -115,11 +117,7 @@ def choose_difficulty():
       # print(conclusion)
       print(conclusion)
 
-# a = choose_difficulty()
-# print(choose_difficulty())
-#
-#
-# def operation_status(a: list):
+
       """Функция запрашивает статус у пользователя по которому необходимо выполнить фильтрацию"""
       executed = "EXECUTED"
       canceled = "CANCELED"
@@ -142,16 +140,32 @@ def choose_difficulty():
             else:
                 new_list_of_dicts = new_list_of_dicts
                 break
-      # print(f"Операции отфильтрованы по статусу {status_operation.upper()}")
-      print(new_list_of_dicts)
+      print(f"Операции отфильтрованы по статусу {status_operation.upper()}")
+      # print(new_list_of_dicts)
 
-print(choose_difficulty())
+# print(choose_difficulty())
 
 #
 # def additional_questions():
 #       pass
-# print("Отсортировать операции по дате? Да/Нет")
-# first_question = input().strip().lower()
+      print("Отсортировать операции по дате? Да/Нет")
+
+      yes = "да"
+      no = "нет"
+      while True:
+            first_question = input().strip().lower()
+            if first_question == "да":
+                  sort_date = sort_by_date(new_list_of_dicts)
+                  print(sort_date)
+                  break
+
+# a = choose_difficulty()
+print(choose_difficulty())
+
+
+
+
+
 #
 # print("Отсортировать по возрастанию или по убыванию?")
 # second_question = input().strip().lower()
