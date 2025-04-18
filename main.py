@@ -184,15 +184,39 @@ def choose_difficulty():
             # print(sorted_in_ascending_order)
 
       print("Выводить только рублевые транзакции? Да/Нет")
-      #
-      # third_question = input().strip().lower()
-      # if third_question == 'да':
-      #       new_ruble_list = list()
-      #       for item in sorted_in_ascending_order:
-      #             currency = item["operationAmount"]["currency"]["code"]
-      #             if currency == "RUB":
-      #                   new_ruble_list.append(item)
-      #       # print(new_ruble_list)
+
+      while True:
+            third_question = input().strip().lower()
+            if first_question not in {yes, no}:
+                  print (f"Введите {yes} или {no}")
+                  continue
+
+            if third_question == yes:
+                  new_ruble_list = list()
+                  if not "RUB" in sorted_in_ascending_order:
+                        print("По данной транзакции данных нет, выберите другой вариант")
+                  for item in sorted_in_ascending_order:
+                        if "operationAmount" in item:
+                              currency = item["operationAmount"]["currency"]["code"]
+                              if currency == 'RUB':
+                                    new_ruble_list.append(item)
+                                    print(new_ruble_list)
+                                    break
+
+                        if not "operationAmount" in item:
+                              currency = item['currency_name']
+                              if currency == 'RUB':
+                                    new_ruble_list.append(item)
+                                    print(new_ruble_list)
+                                    break
+
+
+            if third_question == no:
+                  new_ruble_list = sorted_in_ascending_order
+                  print(new_ruble_list)
+                  break
+
+
       #
       # print("Отфильтровать список транзакций по определенному слову в описании? Да/Нет")
       # fourth_question = input().strip().lower()
