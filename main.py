@@ -200,47 +200,43 @@ def choose_difficulty():
                               currency = item["operationAmount"]["currency"]["code"]
                               if currency == 'RUB':
                                     new_ruble_list.append(item)
-                                    print(new_ruble_list)
                                     break
 
                         if not "operationAmount" in item:
                               currency = item['currency_name']
                               if currency == 'RUB':
                                     new_ruble_list.append(item)
-                                    print(new_ruble_list)
                                     break
-
 
             if third_question == no:
                   new_ruble_list = sorted_in_ascending_order
-                  print(new_ruble_list)
                   break
 
 
-      #
-      # print("Отфильтровать список транзакций по определенному слову в описании? Да/Нет")
-      # fourth_question = input().strip().lower()
-      # if fourth_question == "да":
-      #       print("Введите 'Перевод' или 'Открытие'.")
-      #       open_word = "открытие"
-      #       transaction_word = 'перевод'
-      #       while True:
-      #             fourth_question_yes = input().strip().lower()
-      #             if fourth_question_yes not in {open_word, transaction_word}:
-      #                   print("Введите 'Перевод' или 'Открытие'.")
-      #                   continue
-      #             certain_word_list_of_dicts = list_dict_operation(new_ruble_list, fourth_question_yes)
-      #
-      #             if not certain_word_list_of_dicts:
-      #                   print(f"Транзакции по слову {fourth_question_yes} нет")
-      #             else:
-      #                   certain_word_list_of_dicts = certain_word_list_of_dicts
-      #                   break
-      # # Создаю список из значений словаря
-      # categories_list = list()
-      # for item in certain_word_list_of_dicts:
-      #       if item["description"]:
-      #             categories_list.append(item["description"])
+      print("Отфильтровать список транзакций по определенному слову в описании? Да/Нет")
+      fourth_question = input().strip().lower()
+      if fourth_question == "да":
+            print("Введите 'Перевод' или 'Открытие'.")
+            open_word = "открытие"
+            transaction_word = 'перевод'
+            while True:
+                  fourth_question_yes = input().strip().lower()
+                  if fourth_question_yes not in {open_word, transaction_word}:
+                        print("Введите 'Перевод' или 'Открытие'.")
+                        continue
+                  certain_word_list_of_dicts = list_dict_operation(new_ruble_list, fourth_question_yes)
+
+                  if not certain_word_list_of_dicts:
+                        print(f"Транзакции по слову {fourth_question_yes} нет")
+                  else:
+                        certain_word_list_of_dicts = certain_word_list_of_dicts
+                        print(certain_word_list_of_dicts)
+                        break
+      # Создаю список из значений словаря
+      categories_list = list()
+      for item in certain_word_list_of_dicts:
+            if item["description"]:
+                  categories_list.append(item["description"])
       #
       #
       # print("Распечатываю итоговый список транзакций...")
