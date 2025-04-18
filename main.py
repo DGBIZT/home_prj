@@ -87,7 +87,11 @@ from src.utils import get_for_city
 from src.description_category import list_dict_operation
 from src.processing import sort_by_date
 from src.widget import get_date, mask_account_card
+from src.file_operations import read_transactions_csv_and_output, read_transactions_excel_and_output
 import re
+
+from tests.conftest import transaction
+
 
 def choose_difficulty():
       """Запрашивает у пользователя пункт меню. """
@@ -109,15 +113,18 @@ def choose_difficulty():
 
       if options == one:
             conclusion = "Для обработки выбран JSON-файл"
-            json_file = get_for_city("../data/operations.json")
+            transaction_file = get_for_city("../data/operations.json")
 
       elif options == two:
             conclusion = "Для обработки выбран CSV-файл"
+            transaction_file = read_transactions_csv_and_output("../data/transactions.csv")
       elif options == three:
             conclusion = "Для обработки выбран XLSX-файл"
+            transaction_file = read_transactions_excel_and_output("../data/transactions_excel.xlsx")
 
       # print(conclusion)
       print(conclusion)
+
 
 
       """Функция запрашивает статус у пользователя по которому необходимо выполнить фильтрацию"""
@@ -135,14 +142,17 @@ def choose_difficulty():
                 print(f"Статус {status_operation} не доступен")
                 continue
 
-            new_list_of_dicts = list_dict_operation(json_file, status_operation)
+            new_list_of_dicts = list_dict_operation(transaction_file, status_operation)
 
             if not new_list_of_dicts:
                   print(f"Статус {status_operation} не доступен")
             else:
                 new_list_of_dicts = new_list_of_dicts
                 break
+      # print(new_list_of_dicts)
+
       print(f"Операции отфильтрованы по статусу {status_operation.upper()}")
+
       # print(new_list_of_dicts)
 
       print("Отсортировать операции по дате? Да/Нет")
@@ -174,56 +184,56 @@ def choose_difficulty():
             # print(sorted_in_ascending_order)
 
       print("Выводить только рублевые транзакции? Да/Нет")
-
-      third_question = input().strip().lower()
-      if third_question == 'да':
-            new_ruble_list = list()
-            for item in sorted_in_ascending_order:
-                  currency = item["operationAmount"]["currency"]["code"]
-                  if currency == "RUB":
-                        new_ruble_list.append(item)
-            # print(new_ruble_list)
-
-      print("Отфильтровать список транзакций по определенному слову в описании? Да/Нет")
-      fourth_question = input().strip().lower()
-      if fourth_question == "да":
-            print("Введите 'Перевод' или 'Открытие'.")
-            open_word = "открытие"
-            transaction_word = 'перевод'
-            while True:
-                  fourth_question_yes = input().strip().lower()
-                  if fourth_question_yes not in {open_word, transaction_word}:
-                        print("Введите 'Перевод' или 'Открытие'.")
-                        continue
-                  certain_word_list_of_dicts = list_dict_operation(new_ruble_list, fourth_question_yes)
-
-                  if not certain_word_list_of_dicts:
-                        print(f"Транзакции по слову {fourth_question_yes} нет")
-                  else:
-                        certain_word_list_of_dicts = certain_word_list_of_dicts
-                        break
-      # Создаю список из значений словаря
-      categories_list = list()
-      for item in certain_word_list_of_dicts:
-            if item["description"]:
-                  categories_list.append(item["description"])
-
-
-      print("Распечатываю итоговый список транзакций...")
-      print(f"Всего банковских операций в выборке: {len(categories_list)}")
-
-      for operation in certain_word_list_of_dicts:
-            date = get_date(operation["date"])
-            transactions = operation["description"]
-            transfer_from =mask_account_card(operation["from"])
-            transfer_to = mask_account_card(operation["to"])
-            transfer_amount = operation["operationAmount"]["amount"]
-            currency_name = operation["operationAmount"]["currency"]["name"]
-            #f"\n"f"{date} {transactions}\n{transfer_from} -> {transfer_to}\nСумма: {transfer_amount} {currency_name}"
-            print("\n"f"{date} {transactions}")
-            print(f"{transfer_from} -> {transfer_to}")
-            print(f"Сумма: {transfer_amount} {currency_name}")
-
+      #
+      # third_question = input().strip().lower()
+      # if third_question == 'да':
+      #       new_ruble_list = list()
+      #       for item in sorted_in_ascending_order:
+      #             currency = item["operationAmount"]["currency"]["code"]
+      #             if currency == "RUB":
+      #                   new_ruble_list.append(item)
+      #       # print(new_ruble_list)
+      #
+      # print("Отфильтровать список транзакций по определенному слову в описании? Да/Нет")
+      # fourth_question = input().strip().lower()
+      # if fourth_question == "да":
+      #       print("Введите 'Перевод' или 'Открытие'.")
+      #       open_word = "открытие"
+      #       transaction_word = 'перевод'
+      #       while True:
+      #             fourth_question_yes = input().strip().lower()
+      #             if fourth_question_yes not in {open_word, transaction_word}:
+      #                   print("Введите 'Перевод' или 'Открытие'.")
+      #                   continue
+      #             certain_word_list_of_dicts = list_dict_operation(new_ruble_list, fourth_question_yes)
+      #
+      #             if not certain_word_list_of_dicts:
+      #                   print(f"Транзакции по слову {fourth_question_yes} нет")
+      #             else:
+      #                   certain_word_list_of_dicts = certain_word_list_of_dicts
+      #                   break
+      # # Создаю список из значений словаря
+      # categories_list = list()
+      # for item in certain_word_list_of_dicts:
+      #       if item["description"]:
+      #             categories_list.append(item["description"])
+      #
+      #
+      # print("Распечатываю итоговый список транзакций...")
+      # print(f"Всего банковских операций в выборке: {len(categories_list)}")
+      #
+      # for operation in certain_word_list_of_dicts:
+      #       date = get_date(operation["date"])
+      #       transactions = operation["description"]
+      #       transfer_from =mask_account_card(operation["from"])
+      #       transfer_to = mask_account_card(operation["to"])
+      #       transfer_amount = operation["operationAmount"]["amount"]
+      #       currency_name = operation["operationAmount"]["currency"]["name"]
+      #       #f"\n"f"{date} {transactions}\n{transfer_from} -> {transfer_to}\nСумма: {transfer_amount} {currency_name}"
+      #       print("\n"f"{date} {transactions}")
+      #       print(f"{transfer_from} -> {transfer_to}")
+      #       print(f"Сумма: {transfer_amount} {currency_name}")
+      #
 
 
 
