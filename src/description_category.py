@@ -1,10 +1,10 @@
 import re
 from collections import Counter
 
-def list_dict_operation(list_dict: list[dict[str, str]], search_string: str) -> list[dict[str, str]]:
 
+def list_dict_operation(list_dict: list[dict[str, str]], search_string: str) -> list[dict[str, str]]:
     """Функция принимает список словарей с данными о банковских операциях и строку поиска,
-        а возвращает список словарей, у которых в описании есть данная строка."""
+    а возвращает список словарей, у которых в описании есть данная строка."""
     # Проверяем, что список словарей не пустой
     if not list_dict:
         raise ValueError("Список операций пуст")
@@ -27,6 +27,7 @@ def list_dict_operation(list_dict: list[dict[str, str]], search_string: str) -> 
     except re.error as e:  # Ловим ошибки компиляции regex
         raise ValueError(f"Некорректный шаблон поиска: {e}")
 
+
 # list_sort_data =  [
 #         {"id": 41428829, "state": "EXECUTED ", "date": 2019},
 #         {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
@@ -38,7 +39,6 @@ def list_dict_operation(list_dict: list[dict[str, str]], search_string: str) -> 
 
 
 def count_operations_by_category(operations: list[dict[str, str]], categories: list) -> dict:
-
     """Функция принимает список словарей с данными о банковских операциях и список категорий операций,
     а возвращает словарь, в котором ключи — это названия категорий,
     а значения — это количество операций в каждой категории."""
@@ -65,6 +65,7 @@ def count_operations_by_category(operations: list[dict[str, str]], categories: l
         return filtered_category_count
     except Exception as e:
         print(f"Внимание! Ошибка {e}! Введены не корректные данные!")
+
 
 # operations = [
 #     {"id": 1, "amount": 100.0, "description": "groceries"},
