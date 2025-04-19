@@ -1,96 +1,8 @@
-# from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
-# from src.masks import get_mask_account, get_mask_card_number
-# from src.processing import filter_by_state, sort_by_date
-# from src.widget import get_date, mask_account_card
-# from src.file_operations import read_transactions_csv_and_output, read_transactions_excel_and_output
-
-# # Маскировка номера банковской карты
-# print(get_mask_card_number("7000792289606361"), "\n")
-#
-# # Маскировка номера банковского счета
-# print(get_mask_account("73654108430135874301"), "\n")
-#
-# # Обработка информации как о картах, так и о счетах
-# print(mask_account_card("Visa Electron 1234567890123456"), "\n")
-#
-# # Обработка даты
-# print(get_date("2024-03-11T02:26:18.671407"), "\n")
-#
-# # Возвращает новый список словарей у которых ключ 'state' соответствует указанному значению
-# new_list_of_dicts = filter_by_state(
-#     [
-#         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
-#         {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
-#         {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
-#         {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
-#     ]
-# )
-# print(new_list_of_dicts, "\n")
-#
-# # Возвращает новый список, отсортированный по дате
-# list_sort_data = sort_by_date(
-#     [
-#         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
-#         {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
-#         {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
-#         {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
-#     ]
-# )
-# print(list_sort_data, "\n")
-#
-# """ GENERATORS"""
-# transactions = [
-#     {
-#         "id": 970157810,
-#         "date": "2018-06-08T10:3:58.027767",
-#         "operationAmount": {"amount": "150", "currency": {"code": "RUB"}},
-#         "description": "Перевод организации",
-#         "from": "Счет - 63475662387234505765",
-#         "to": "Счет 8175128657841941437",
-#     },
-#     {
-#         "id": 129309161,
-#         "date": "2018-09-26T00:46:36.256087",
-#         "operationAmount": {"amount": "17250", "currency": {"code": "USD"}},
-#         "description": "Перевод с карты на счет",
-#         "from": "Visa Classic 1313132313442324",
-#         "to": "Счет 1743370781324891402",
-#     },
-#     {
-#         "id": 999888555,
-#         "date": "2025-03-19T10:3:58.027767",
-#         "operationAmount": {"amount": "250", "currency": {"code": "USD"}},
-#         "description": "Перевод организации STMU",
-#         "from": "Счет - 63475662387234505765",
-#         "to": "Счет 8175128657841941437",
-#     },
-# ]
-# usd_transactions_list = list(filter_by_currency(transactions, "USD"))
-# number_of_iterations = len(usd_transactions_list)
-# for i in range(number_of_iterations):
-#     print(usd_transactions_list[i])
-#
-# descriptions = transaction_descriptions(usd_transactions_list)
-# for i in range(number_of_iterations):
-#     print(next(descriptions))
-#
-# for card_number in card_number_generator(4000123456789010, 4000123456789015):
-#     print(card_number)
-#
-# csv_file = read_transactions_csv_and_output("../data/transactions.csv")
-# print(csv_file)
-#
-# xlsx_file = read_transactions_excel_and_output("../data/transactions_excel.xlsx")
-# print(xlsx_file)
-####################################################
 from src.utils import get_for_city
 from src.description_category import list_dict_operation
 from src.processing import sort_by_date
 from src.widget import get_date, mask_account_card
 from src.file_operations import read_transactions_csv_and_output, read_transactions_excel_and_output
-import re
-
-from tests.conftest import transaction
 
 
 def choose_difficulty():
@@ -187,26 +99,35 @@ def choose_difficulty():
 
       while True:
             third_question = input().strip().lower()
-            if first_question not in {yes, no}:
+            if third_question not in {yes, no}:
                   print (f"Введите {yes} или {no}")
                   continue
 
             if third_question == yes:
                   new_ruble_list = list()
-                  if not "RUB" in sorted_in_ascending_order:
-                        print("По данной транзакции данных нет, выберите другой вариант")
                   for item in sorted_in_ascending_order:
                         if "operationAmount" in item:
+                              has_rub = any(item["operationAmount"]["currency"]["code"] == 'RUB' for item in sorted_in_ascending_order)
+                              if not has_rub:
+                                    print("По данной транзакции данных нет, выберите другой вариант")
+                                    continue
                               currency = item["operationAmount"]["currency"]["code"]
                               if currency == 'RUB':
                                     new_ruble_list.append(item)
                                     break
 
                         if not "operationAmount" in item:
-                              currency = item['currency_name']
-                              if currency == 'RUB':
-                                    new_ruble_list.append(item)
-                                    break
+                              # проверка есть ли "RUB" TRU или FALSE
+                              has_rub = any(item['currency_code'] == 'RUB' for item in sorted_in_ascending_order)
+                              if not has_rub:
+                                    print("По данной транзакции данных нет, выберите другой вариант")
+                                    continue
+                              if has_rub:
+                                    currency = item['currency_code']
+                                    if currency == 'RUB':
+                                          new_ruble_list.append(item)
+                                          break
+                  break
 
             if third_question == no:
                   new_ruble_list = sorted_in_ascending_order
@@ -230,32 +151,63 @@ def choose_difficulty():
                         print(f"Транзакции по слову {fourth_question_yes} нет")
                   else:
                         certain_word_list_of_dicts = certain_word_list_of_dicts
-                        print(certain_word_list_of_dicts)
+                        # print(certain_word_list_of_dicts)
                         break
+      elif fourth_question == "нет":
+            certain_word_list_of_dicts = new_ruble_list
+
       # Создаю список из значений словаря
       categories_list = list()
       for item in certain_word_list_of_dicts:
             if item["description"]:
                   categories_list.append(item["description"])
-      #
-      #
-      # print("Распечатываю итоговый список транзакций...")
-      # print(f"Всего банковских операций в выборке: {len(categories_list)}")
-      #
-      # for operation in certain_word_list_of_dicts:
-      #       date = get_date(operation["date"])
-      #       transactions = operation["description"]
-      #       transfer_from =mask_account_card(operation["from"])
-      #       transfer_to = mask_account_card(operation["to"])
-      #       transfer_amount = operation["operationAmount"]["amount"]
-      #       currency_name = operation["operationAmount"]["currency"]["name"]
-      #       #f"\n"f"{date} {transactions}\n{transfer_from} -> {transfer_to}\nСумма: {transfer_amount} {currency_name}"
-      #       print("\n"f"{date} {transactions}")
-      #       print(f"{transfer_from} -> {transfer_to}")
-      #       print(f"Сумма: {transfer_amount} {currency_name}")
-      #
+      # print(categories_list)
 
+      print("Распечатываю итоговый список транзакций...")
+      print(f"Всего банковских операций в выборке: {len(categories_list)}")
 
+      for operation in certain_word_list_of_dicts:
+
+            if not "operationAmount" in operation:
+                  date = get_date(operation["date"])
+                  transactions = operation["description"]
+                  transfer_from = operation.get("from")
+                  if transfer_from and isinstance(transfer_from, str):
+                        transfer_from = mask_account_card(transfer_from)
+                  else:
+                        transfer_from = None
+                  # transfer_from = mask_account_card(operation.get("from", 'default_value'))
+                  transfer_to = mask_account_card(operation["to"])
+                  transfer_amount = operation["amount"]
+                  currency_name = operation['currency_code']
+
+                  print("\n"f"{date} {transactions}")
+                  if not transfer_from:
+                        print(f'{transfer_to}')
+                  else:
+                        print(f"{transfer_from} -> {transfer_to}")
+                  print(f"Сумма: {transfer_amount} {currency_name}")
+
+            if "operationAmount" in operation:
+                  date = get_date(operation["date"])
+                  transactions = operation["description"]
+                  transfer_from = operation.get("from")
+                  if transfer_from and isinstance(transfer_from, str):
+                        transfer_from = mask_account_card(transfer_from)
+                  else:
+                        transfer_from = None
+                  # transfer_from = mask_account_card(operation["from"])
+                  transfer_to = mask_account_card(operation["to"])
+                  transfer_amount = operation["operationAmount"]["amount"]
+                  currency_name = operation["operationAmount"]["currency"]["name"]
+                  # f"\n"f"{date} {transactions}\n{transfer_from} -> {transfer_to}\nСумма: {transfer_amount} {currency_name}"
+
+                  print("\n"f"{date} {transactions}")
+                  if not transfer_from :
+                        print(f'{transfer_to}')
+                  else:
+                        print(f"{transfer_from} -> {transfer_to}")
+                  print(f"Сумма: {transfer_amount} {currency_name}")
 
 
 choose_difficulty()
