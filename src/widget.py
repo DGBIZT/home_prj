@@ -1,9 +1,9 @@
 from .masks import get_mask_account, get_mask_card_number
 
-"""Функция которая обрабатывает информацию как о картах, так и о счетах"""
-
 
 def mask_account_card(card: str) -> str:
+    """Функция, которая обрабатывает информацию как о картах, так и о счетах"""
+
     if card == int or card is None:
         raise AttributeError("Введите строковое значение")
     else:
@@ -16,11 +16,10 @@ def mask_account_card(card: str) -> str:
     return mask_ac_card
 
 
-"""Функция которая принимает на вход строку с датой в формате "2024-03-11T02:26:18.671407"
- и возвращает строку с датой в формате "ДД.ММ.ГГГГ" """
-
-
 def get_date(date: str) -> str:
+    """Функция, которая принимает на вход строку с датой в формате "2024-03-11T02:26:18.671407"
+    и возвращает строку с датой в формате "ДД.ММ.ГГГГ" """
+
     if date == int or date is None:
         raise AttributeError("Введите значение с датой")
     else:
