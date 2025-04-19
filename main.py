@@ -148,7 +148,10 @@ def choose_difficulty():
                   certain_word_list_of_dicts = list_dict_operation(new_ruble_list, fourth_question_yes)
 
                   if not certain_word_list_of_dicts:
-                        print(f"Транзакции по слову {fourth_question_yes} нет")
+                        # print(f"Не найдено ни одной транзакции, подходящей под ваши условия фильтрации ")
+                        # print("Транзакции по слову {fourth_question_yes} нет")
+                        break
+
                   else:
                         certain_word_list_of_dicts = certain_word_list_of_dicts
                         # print(certain_word_list_of_dicts)
@@ -162,52 +165,53 @@ def choose_difficulty():
             if item["description"]:
                   categories_list.append(item["description"])
       # print(categories_list)
+      if len(categories_list) != 0:
+            print("Распечатываю итоговый список транзакций...")
+            print(f"Всего банковских операций в выборке: {len(categories_list)}")
 
-      print("Распечатываю итоговый список транзакций...")
-      print(f"Всего банковских операций в выборке: {len(categories_list)}")
+            for operation in certain_word_list_of_dicts:
 
-      for operation in certain_word_list_of_dicts:
+                  if not "operationAmount" in operation:
+                        date = get_date(operation["date"])
+                        transactions = operation["description"]
+                        transfer_from = operation.get("from")
+                        if transfer_from and isinstance(transfer_from, str):
+                              transfer_from = mask_account_card(transfer_from)
+                        else:
+                              transfer_from = None
+                        # transfer_from = mask_account_card(operation.get("from", 'default_value'))
+                        transfer_to = mask_account_card(operation["to"])
+                        transfer_amount = operation["amount"]
+                        currency_name = operation['currency_code']
 
-            if not "operationAmount" in operation:
-                  date = get_date(operation["date"])
-                  transactions = operation["description"]
-                  transfer_from = operation.get("from")
-                  if transfer_from and isinstance(transfer_from, str):
-                        transfer_from = mask_account_card(transfer_from)
-                  else:
-                        transfer_from = None
-                  # transfer_from = mask_account_card(operation.get("from", 'default_value'))
-                  transfer_to = mask_account_card(operation["to"])
-                  transfer_amount = operation["amount"]
-                  currency_name = operation['currency_code']
+                        print("\n"f"{date} {transactions}")
+                        if not transfer_from:
+                              print(f'{transfer_to}')
+                        else:
+                              print(f"{transfer_from} -> {transfer_to}")
+                        print(f"Сумма: {transfer_amount} {currency_name}")
 
-                  print("\n"f"{date} {transactions}")
-                  if not transfer_from:
-                        print(f'{transfer_to}')
-                  else:
-                        print(f"{transfer_from} -> {transfer_to}")
-                  print(f"Сумма: {transfer_amount} {currency_name}")
+                  if "operationAmount" in operation:
+                        date = get_date(operation["date"])
+                        transactions = operation["description"]
+                        transfer_from = operation.get("from")
+                        if transfer_from and isinstance(transfer_from, str):
+                              transfer_from = mask_account_card(transfer_from)
+                        else:
+                              transfer_from = None
+                        # transfer_from = mask_account_card(operation["from"])
+                        transfer_to = mask_account_card(operation["to"])
+                        transfer_amount = operation["operationAmount"]["amount"]
+                        currency_name = operation["operationAmount"]["currency"]["name"]
+                        # f"\n"f"{date} {transactions}\n{transfer_from} -> {transfer_to}\nСумма: {transfer_amount} {currency_name}"
 
-            if "operationAmount" in operation:
-                  date = get_date(operation["date"])
-                  transactions = operation["description"]
-                  transfer_from = operation.get("from")
-                  if transfer_from and isinstance(transfer_from, str):
-                        transfer_from = mask_account_card(transfer_from)
-                  else:
-                        transfer_from = None
-                  # transfer_from = mask_account_card(operation["from"])
-                  transfer_to = mask_account_card(operation["to"])
-                  transfer_amount = operation["operationAmount"]["amount"]
-                  currency_name = operation["operationAmount"]["currency"]["name"]
-                  # f"\n"f"{date} {transactions}\n{transfer_from} -> {transfer_to}\nСумма: {transfer_amount} {currency_name}"
+                        print("\n"f"{date} {transactions}")
+                        if not transfer_from :
+                              print(f'{transfer_to}')
+                        else:
+                              print(f"{transfer_from} -> {transfer_to}")
+                        print(f"Сумма: {transfer_amount} {currency_name}")
 
-                  print("\n"f"{date} {transactions}")
-                  if not transfer_from :
-                        print(f'{transfer_to}')
-                  else:
-                        print(f"{transfer_from} -> {transfer_to}")
-                  print(f"Сумма: {transfer_amount} {currency_name}")
-
-
+      else:
+            print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
 choose_difficulty()
